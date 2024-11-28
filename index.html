@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background-color: gray;
+        width: 100vw;
+        height: 100vh;
+      }
+      .navigation {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        justify-content: center;
+        align-items: center;
+      }
+      .navigation ul {
+        list-style-type: none;
+        display: flex;
+        background-color: black;
+        border-radius: 5px;
+        position: relative;
+      }
+      .navigation ul li {
+        text-align: center;
+        z-index: 2;
+      }
+      .navigation ul li a {
+        font-size: 25px;
+        text-decoration: none;
+        color: #fff;
+        padding: 15px 0px;
+        display: block;
+      }
+      .home {
+        width: 120px;
+      }
+      .services {
+        width: 120px;
+      }
+      .about {
+        width: 120px;
+      }
+      .contact {
+        width: 120px;
+      }
+      .slider {
+        position: absolute;
+        width: 0px;
+        height: 100%;
+        left: 0px;
+        background-color: pink;
+        border-radius: 5px;
+        transition: 0.5s ease;
+        z-index: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="navigation">
+      <ul>
+        <li class="home"><a href="#">Home</a></li>
+        <li class="services"><a href="#">services</a></li>
+        <li class="about"><a href="#">about</a></li>
+        <li class="contact"><a href="#">contact</a></li>
+        <span class="slider"></span>
+      </ul>
+    </div>
+  </body>
+  <script>
+   let slider = document.querySelector(".slider");
+let li = document.querySelectorAll(".navigation ul li");
+let left_position;
+let index_value = 0;
+
+// Event listener for hover
+li.forEach((item, index) => {
+  item.onmouseenter = function () {
+    slider.style.width = item.clientWidth + "px";
+    index_value = index;
+    get_left_position();
+    slider.style.left = left_position + "px";
+    left_position = 0;
+  };
+});
+
+// Event listener for arrow keys
+document.addEventListener("keydown", (e) => {
+  if (e.key === "ArrowRight") {
+    moveSlider("right");
+  } else if (e.key === "ArrowLeft") {
+    moveSlider("left");
+  }
+});
+
+// Move slider with arrow keys
+function moveSlider(direction) {
+  if (direction === "right" && index_value < li.length - 1) {
+    index_value++;
+  } else if (direction === "left" && index_value > 0) {
+    index_value--;
+  }
+
+  slider.style.width = li[index_value].clientWidth + "px";
+  left_position = 0;
+  get_left_position();
+  slider.style.left = left_position + "px";
+}
+
+// Calculate left position
+function get_left_position() {
+  for (let i = 0; i < index_value; i++) {
+    const element = li[i];
+    left_position += element.clientWidth;
+  }
+}
+
+  </script>
+</html>
